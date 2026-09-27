@@ -19,6 +19,7 @@ body {
 
 .temp-header {
   background: var(--header-bg, #0b121c);
+  box-shadow: inset 0 -2px 0 var(--color-control-border);
   color: var(--header-text, #ffffff);
   padding: 18px 28px;
   display: flex;
@@ -85,14 +86,30 @@ body {
 }
 
 .temp-bell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  border: 1px solid var(--border-color, #cbc3c3);
-  background: var(--bell-bg, #1a4380);
-  color: var(--bell-color, #ffd34d);
-  font-size: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: #10265d;
+  color: #ffd34d;
   cursor: pointer;
+}
+
+.temp-bell:hover {
+  background: #163a86;
+}
+
+.temp-bell[aria-expanded="true"] {
+  background: #163a86;
+  border-color: #ffd34d;
+}
+
+.temp-bell-icon {
+  width: 20px;
+  height: 20px;
 }
 
 .header-auth-summary {
@@ -137,29 +154,115 @@ body {
   width: 100%;
 }
 
-.login-form {
-  width: 360px;
+.login-main {
+  align-items: center;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.12), transparent 32rem),
+    radial-gradient(circle at 90% 90%, rgba(14, 165, 233, 0.1), transparent 28rem),
+    var(--bg, #f4f7fb);
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  min-height: calc(100svh - 106px);
+  padding: 48px 20px;
 }
 
-.login-form label {
+.login-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #dce5f0);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(15, 35, 70, 0.13);
+  max-width: 100%;
+  overflow: hidden;
+  padding: 36px;
+  width: 440px;
+}
+
+.login-heading {
+  margin-bottom: 28px;
+}
+
+.login-eyebrow {
+  color: var(--primary, #2563eb);
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.login-heading h1 {
+  color: var(--heading-color, #102a4c);
+  font-size: clamp(26px, 4vw, 32px);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.login-heading p {
+  color: var(--muted, #64748b);
   font-size: 14px;
-  font-weight: 600;
+  line-height: 1.55;
+  margin: 9px 0 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.login-field {
+  display: grid;
+  gap: 8px;
+}
+
+.login-field > label {
+  font-size: 14px;
+  font-weight: 700;
   color: var(--text, #111111);
 }
 
-.login-form input {
-  padding: 12px 14px;
-  border: 1px solid var(--border-color, #d9d9d9);
-  border-radius: 6px;
+.login-field input {
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 10px;
   background: var(--bg, #ffffff);
+  color: var(--text, #0f172a);
   font-size: 14px;
+  min-height: 48px;
+  outline: none;
+  padding: 0 14px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
-.login-form .btn {
-  margin-top: 6px;
+.login-field input::placeholder {
+  color: var(--muted, #94a3b8);
+}
+
+.login-field input:hover {
+  border-color: var(--primary, #2563eb);
+}
+
+.login-field input:focus-visible {
+  border-color: var(--primary, #2563eb);
+  box-shadow: var(--focus-ring);
+}
+
+.login-field input[aria-invalid="true"] {
+  border-color: var(--error-text, #dc2626);
+}
+
+.login-field-error {
+  color: var(--error-text, #991b1b);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.login-submit {
+  min-height: 48px;
+  width: 100%;
 }
 
 .login-form button:disabled {
@@ -189,94 +292,201 @@ body {
   color: var(--success-text, #166534);
 }
 
+.login-loading {
+  background: var(--color-info-bg, #eff6ff);
+  border: 1px solid var(--color-info-border, #bfdbfe);
+  color: var(--color-info-text, #1e40af);
+}
+
 .login-extra {
-  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
 }
 
 /* Priyanka - Forgot password task styling */
 
 .forgot {
-  font-size: 13px;
-  color: var(--text, #000000);
+  background: transparent;
+  border: 0;
+  color: var(--primary, #2563eb);
   cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 0;
+}
+
+.forgot:hover,
+.forgot:focus-visible {
+  color: var(--link-hover, #1d4ed8);
   text-decoration: underline;
 }
 
-.forgot:hover {
-  color: var(--link-hover, #1d4ed8);
-}
-
-.remember {
+.password-visibility {
+  color: var(--text, #334155);
   font-size: 13px;
   display: flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
 }
 
-.remember input {
+.password-visibility input {
+  accent-color: var(--primary, #2563eb);
+  height: 16px;
   margin: 0;
+  width: 16px;
 }
 
 .forgot-page-wrapper {
   width: 100%;
+  min-height: calc(100svh - 106px);
   display: flex;
+  align-items: center;
   justify-content: center;
-  padding-top: 30px;
+  padding: 48px 20px;
+  background: var(--bg, #f4f7fb);
 }
 
 .forgot-password-card {
-  width: 360px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: var(--bg, #ffffff);
-  border: 1px solid var(--border-color, #d9d9d9);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  width: 480px;
+  max-width: 100%;
+  padding: 36px;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #dce5f0);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(15, 35, 70, 0.13);
 }
 
-.forgot-password-card h2 {
-  margin: 0;
-  font-size: 24px;
-  color: var(--text, #071633);
+.forgot-password-card h1 {
+  margin: 0 0 12px;
+  color: var(--heading-color, #102a4c);
+  font-size: clamp(26px, 4vw, 32px);
+  line-height: 1.15;
 }
 
 .forgot-subtext {
+  margin: 0 0 28px;
+  color: var(--muted, #64748b);
   font-size: 14px;
-  color: var(--text, #5f6b7a);
-  line-height: 1.5;
+  line-height: 1.6;
+}
+
+.forgot-password-card form { width: 100%; }
+.forgot-field { margin-bottom: 20px; }
+
+.forgot-field label {
+  display: block;
   margin-bottom: 8px;
-}
-
-.forgot-password-card label {
-  font-size: 14px;
-  font-weight: 600;
   color: var(--text, #111111);
+  font-size: 14px;
+  font-weight: 700;
 }
 
-.forgot-password-card input {
-  padding: 12px 14px;
-  border: 1px solid var(--border-color, #d9d9d9);
-  border-radius: 6px;
+.forgot-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 10px;
+  outline: none;
   background: var(--bg, #ffffff);
+  color: var(--text, #0f172a);
+  font: inherit;
   font-size: 14px;
+}
+
+.forgot-field input:focus-visible {
+  border-color: var(--primary, #2563eb);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+}
+
+.forgot-field input[aria-invalid="true"] { border-color: var(--error-text, #dc2626); }
+.forgot-field input:disabled { cursor: not-allowed; opacity: 0.7; }
+
+.forgot-field-help {
+  margin: 7px 0 0;
+  color: var(--muted, #64748b);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.forgot-message {
+  margin: 12px 0 18px;
+  padding: 11px 13px;
+  border: 1px solid;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.forgot-message--error {
+  background: var(--error-bg, #fef2f2);
+  border-color: var(--error-border, #fecaca);
+  color: var(--error-text, #991b1b);
+}
+
+.forgot-message--success {
+  background: var(--success-bg, #ecfdf3);
+  border-color: var(--success-border, #bbf7d0);
+  color: var(--success-text, #166534);
+}
+
+.forgot-message--warning {
+  background: #fffbeb;
+  border-color: #fcd34d;
+  color: #854d0e;
+}
+
+.forgot-btn,
+.back-login-btn {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.forgot-btn {
+  border: 0;
+  background: var(--primary, #2563eb);
+  color: #ffffff;
 }
 
 .back-login-btn {
-  margin-top: 8px;
-  padding: 12px;
-  background: var(--bg, #000000);
-  color: var(--text, #ffffff);
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
+  margin-top: 12px;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background: transparent;
+  color: var(--primary, #2563eb);
 }
+
+.forgot-btn:focus-visible,
+.back-login-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(37, 99, 235, 0.3));
+}
+
+.forgot-btn:disabled,
+.back-login-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 1199px) {
+  .forgot-page-wrapper { min-height: calc(100svh - 88px); }
+}
+
+@media (max-width: 600px) {
+  .forgot-page-wrapper { align-items: flex-start; padding: 24px 16px; }
+  .forgot-password-card { padding: 26px 20px; border-radius: 16px; }
+  .forgot-password-card h1 { font-size: 26px; }
+}
+
 
 .about-box {
   position: absolute;
@@ -883,6 +1093,12 @@ body {
   min-height: calc(100svh - 106px);
   width: 100%;
 }
+
+@media (min-width: 1200px) {
+  :root[data-sidebar-collapsed="true"] .app-body {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+}
 .app-content {
   background: var(--page-bg, #eef3f8);
   min-width: 0;
@@ -895,22 +1111,22 @@ body {
 .app-content input,
 .app-content select,
 .app-content textarea {
-  background-color: #ffffff;
-  color: #001a3e;
-  color-scheme: light;
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  color-scheme: inherit;
 }
 
 .app-content input::placeholder,
 .app-content textarea::placeholder {
-  color: #64748b;
+  color: var(--color-placeholder);
   opacity: 1;
 }
 
 .app-content input:disabled,
 .app-content select:disabled,
 .app-content textarea:disabled {
-  background-color: #f1f5f9;
-  color: #64748b;
+  background-color: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
   opacity: 1;
 }
 .menu-button, .sidebar-overlay { display: none; }
@@ -918,6 +1134,7 @@ body {
 .skip-link:focus { transform: translateY(0); }
 @media (max-width: 1199px) {
   .temp-header { min-height: 88px; padding: 12px 18px; }
+  .login-main { min-height: calc(100svh - 88px); }
   .temp-logo { height: 54px; width: 54px; }
   .temp-header-left h2 { font-size: 21px; }
   .temp-header-left p { font-size: 13px; }
@@ -938,6 +1155,114 @@ body {
   .temp-logo { height: 46px; width: 46px; }
   .temp-header-left p { display: none; }
   .header-role { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .login-main { align-items: flex-start; padding: 24px 12px; }
+  .login-card { border-radius: 16px; padding: 26px 20px; }
+  .login-extra { align-items: flex-start; flex-direction: column; }
+}
+
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] .login-page {
+  background: var(--color-page-bg);
+}
+
+:root[data-theme="dark"] .login-main {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.13), transparent 32rem),
+    radial-gradient(circle at 90% 90%, rgba(14, 165, 233, 0.08), transparent 28rem),
+    var(--color-page-bg);
+}
+
+:root[data-theme="dark"] .login-card {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+:root[data-theme="dark"] .login-heading h1 { color: var(--color-heading); }
+
+:root[data-theme="dark"] .login-heading p { color: var(--color-text-muted); }
+
+:root[data-theme="dark"] .temp-search,
+:root[data-theme="dark"] .header-auth-button,
+:root[data-theme="dark"] .login-form input,
+:root[data-theme="dark"] .forgot-password-card input,
+:root[data-theme="dark"] .create-user-form input,
+:root[data-theme="dark"] .create-user-form select {
+  background: var(--color-input-bg);
+  border-color: var(--color-control-border);
+  color: var(--color-text);
+}
+
+:root[data-theme="dark"] .header-auth-button:hover {
+  background: var(--color-interactive-surface-hover);
+}
+
+:root[data-theme="dark"] .header-role {
+  background: var(--color-selected-bg);
+  border-color: var(--color-selected-bg);
+  color: var(--color-selected-text);
+}
+
+:root[data-theme="dark"] .login-form label,
+:root[data-theme="dark"] .forgot,
+:root[data-theme="dark"] .password-visibility,
+:root[data-theme="dark"] .forgot-password-card label,
+:root[data-theme="dark"] .create-user-form label {
+  color: var(--color-text);
+}
+
+:root[data-theme="dark"] .forgot-password-card,
+:root[data-theme="dark"] .about-box,
+:root[data-theme="dark"] .admin-menu,
+:root[data-theme="dark"] .create-user-card {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+:root[data-theme="dark"] .forgot-password-card h1,
+:root[data-theme="dark"] .create-user-heading h1,
+:root[data-theme="dark"] .admin-menu button {
+  color: var(--color-heading);
+}
+
+:root[data-theme="dark"] .forgot-subtext,
+:root[data-theme="dark"] .create-user-heading p,
+:root[data-theme="dark"] .admin-menu small {
+  color: var(--color-text-muted);
+}
+
+:root[data-theme="dark"] .admin-menu button:hover,
+:root[data-theme="dark"] .admin-menu button:focus-visible,
+:root[data-theme="dark"] .create-user-back {
+  background: var(--color-interactive-surface-hover);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+:root[data-theme="dark"] .admin-menu-icon {
+  background: var(--color-selected-bg);
+  color: var(--color-selected-text);
+}
+
+:root[data-theme="dark"] .admin-menu .admin-menu-logout:hover,
+:root[data-theme="dark"] .admin-menu .admin-menu-logout:focus-visible {
+  background: var(--color-error-bg);
+}
+
+:root[data-theme="dark"] .admin-menu-logout .admin-menu-icon,
+:root[data-theme="dark"] .admin-menu-logout strong {
+  color: var(--color-error-text);
+}
+
+:root[data-theme="dark"] .back-login-btn,
+:root[data-theme="dark"] .create-user-submit {
+  background: var(--color-interactive);
+  color: var(--color-on-interactive);
+}
+
+:root[data-theme="dark"] .skip-link {
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 
